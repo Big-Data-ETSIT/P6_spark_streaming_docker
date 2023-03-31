@@ -119,7 +119,7 @@ En el fichero `docker-compose.yml` aparecen todos los contenedores necesarios pa
 - *spark-worker-2*: nodo worker que ejecutará los jobs.
 - *spark-submit*: contenedor encargado de ejecutar spark-submit para iniciar el Job en Spark.
 
-Para arrancar el escenario debe ejecutar el comando en la carpeta correspondiente desde la raíz del proyecto. La primera vez puede tardar un par de minutos porque debe descargarse las imágenes desde DockerHub.
+Para arrancar el escenario debe ejecutar el comando desde la raíz del proyecto. La primera vez puede tardar un par de minutos porque debe descargarse las imágenes desde DockerHub.
 
 ```
 docker compose up -d
