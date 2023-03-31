@@ -9,5 +9,6 @@ project
 .bsp
 result*/*.csv
 result*/*.crc
-docker-compose.yml
+node_modules
+package-lock.json
 

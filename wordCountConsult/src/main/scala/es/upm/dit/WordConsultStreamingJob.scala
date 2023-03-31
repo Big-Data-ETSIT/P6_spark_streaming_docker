@@ -2,15 +2,15 @@ package es.upm.dit
 import org.apache.spark.sql.SparkSession
 
 object WordConsultStreamingJob {
-  final val BASE_PATH = "../../P6_spark_streaming_docker"
-  final val inputFile = BASE_PATH + "/wordCountConsult/csv/wordsCount.csv"
-  final val outputFile = BASE_PATH + "/result/result.csv"
+  val inputFile = "../wordCountConsult/csv/wordsCount.csv"
+  final val HOST = sys.env.getOrElse("SERVER", "localhost")
+  final val MASTER = sys.env.getOrElse("SPARK_MASTER", "local[*]")
   def main(args: Array[String]): Unit = {
 
     print("STARTING SPARK STRUCTURED STREAMING PROGRAM")
 
     val spark:SparkSession = SparkSession.builder()
-      .master("local[*]")
+      .master(MASTER)
       .appName("SparkByExample")
       .getOrCreate()
 
@@ -22,7 +22,7 @@ object WordConsultStreamingJob {
 
     val streamingDf = spark.readStream
       .format("socket")
-      .option("host","localhost")
+      .option("host",HOST)
       .option("port","9090")
       .load()
       .withColumnRenamed("value", "Word")
