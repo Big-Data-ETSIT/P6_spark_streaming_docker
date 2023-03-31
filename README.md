@@ -159,7 +159,7 @@ Acceda a la UI de Spark y navegue por las diferentes pestañas:
 - http://localhost:8080/ : información del cluster
 - http://localhost:4040/ : informaicón de Spark Structured Streaming
 
-**Pregunta 6: explique que se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
+**Pregunta 6: explique qué se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
 
 
 Pare el escenario:
