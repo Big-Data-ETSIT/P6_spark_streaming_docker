@@ -32,7 +32,7 @@ La práctica plantea una serie de ejercicios para afianzar los conocimiento sobr
 La práctica se desarrolla en tres bloques en donde se pretende ejemplificar como desplegar un job en Spark Structured Streaming y como desplegarlo con Docker.
 
 
-## 4. Inicializar el entorno.
+## 4. Inicializar el entorno
 
 Para la realización de la práctica se ha provisionado una máquina virtual con sistema operativo linux y distribución Ubuntu. En los recursos de Moodle de la asignatura se puede acceder al enlace de descarga.
 
@@ -73,10 +73,10 @@ Descargar Docker y Docker Compose
 
 ### Bloque 1: Ejecutar el consultor de contador de palabras.
 
-Usando como directorio de trabajo `P6_spark_batch/wordCountConsult`
+Usando como directorio de trabajo `P6_spark_streaming_docker/wordCountConsult`
 
-**Pregunta 1: Explicar qué hace el código WordConsultStreamingJob.scala**
-**Pregunta 2: Explicar la diferencia entre Spark y Spark Streaming**
+**Pregunta 1: Explique qué hace el código WordConsultStreamingJob.scala**
+**Pregunta 2: Explique la diferencia entre Spark y Spark Streaming**
 
 
 
@@ -88,7 +88,7 @@ Para ello primero debemos compilar el código y empaquetarlo (generar el .jar). 
 sbt compile
 sbt package
 ```
-Comprobar que se genera el .jar en la carpeta `P6_spark_batch/wordCountConsult/target/scala-2.12`
+Comprobar que se genera el .jar en la carpeta `P6_spark_streaming_docker/wordCountConsult/target/scala-2.12`
 
 Arrancar un servidor con netcat al que se conectará el programa desarrollado en Spark. **Es necesario arrancar el servidor antes que el Job de Spark**
 
@@ -102,11 +102,11 @@ Lanzar el programa con el comando spark-submit
 spark-submit --class "es.upm.dit.WordConsultStreamingJob" target/scala-2.12/word-consult-streaming_2.12-1.0.jar
 ```
 
-**Pregunta 3: Introduzca en el terminal en el que inició spark la palabra `quijote` e indique que se muestra en el terminal en el que arrancó el Job de Spark. Puede probar con más palabras. Deduzca qué hace el programa en relación con el laboratorio anterior.**
+**Pregunta 3: Espere a que haya arrancado el programa. Introduzca en el terminal en el que inició netcat la palabra `quijote` e indique que se muestra en el terminal en el que arrancó el Job de Spark. Puede probar con más palabras. Deduzca qué hace el programa en relación con el laboratorio anterior.**
 
 **Pregunta 4: ¿Cúando finaliza la ejecución del programa?**
 
-
+Pare el servidor de netcat y el Job de Spark.
 
 
 ### Bloque 2: Desplegar el Job en Docker
@@ -119,15 +119,15 @@ En el fichero `docker-compose.yml` aparecen todos los contenedores necesarios pa
 - *spark-worker-2*: nodo worker que ejecutará los jobs.
 - *spark-submit*: contenedor encargado de ejecutar spark-submit para iniciar el Job en Spark.
 
-Para arrancar el escenario debe ejecutar el comando:
+Para arrancar el escenario debe ejecutar el comando en la carpeta correspondiente. La primera vez puede tardar un par de minutos porque debe descargarse las imágenes desde DockerHub.
 
 ```
 docker compose up -d
 ```
 
-Además debe arrancar un cliente netcat desde un terminal del ordenador del alumno una vez que haya arrancado el escenario en Docker que se haya arrancado el Job
+Además debe arrancar un cliente netcat desde un terminal del ordenador del alumno una vez que haya arrancado el escenario en Docker y que se haya iniciado el Job
 
-En un terminal ejecute el siguiente comando para ver los logs del Job de Spark:
+En un terminal ejecute el siguiente comando para ver los logs del Job de Spark y comprobar que se ha iniciado el Job:
 ```
 docker logs spark-submit -f
 
@@ -140,18 +140,17 @@ nc localhost 3000
 
 Realice varias consultas al igual que se hizo en el apartado anterior a través del terminal en el que arrancó el cliente netcat.
 
-**
-
-
-Para parar el escenario debe  ejecutar el comando:
+Si necesita reiniciar el escenario puede ejecutar:
 ```
 docker compose down
+docker compose up -d
 ```
 
 
-**Captura 1: caputra con todos los contenedores arrancados (para ello ejecute `docker ps`)**
 
-**Captura 2: caputra con alguno de los resultados devueltos por Spark (terminal del contenedor spark-submit)**
+**Captura 1: captura con todos los contenedores arrancados (para ello ejecute `docker ps`)**
+
+**Captura 2: captura con alguno de los resultados devueltos por Spark (terminal del contenedor spark-submit)**
 
 **Pregunta 5: dibuje y explique la arquitectura del escenario. En el caso del proxy puede suponer que es un servidor al que realiza peticiones y las encamina a Spark**
 
@@ -162,6 +161,11 @@ Acceda a la UI de Spark y navegue por las diferentes pestañas:
 
 **Pregunta 6: explique que se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
 
+
+Pare el escenario:
+```
+docker compose down
+```
 
 
 ## 7. Instrucciones para la Entrega y Evaluación.
