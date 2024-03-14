@@ -76,6 +76,7 @@ Descargar Docker y Docker Compose
 Usando como directorio de trabajo `P6_spark_streaming_docker/wordCountConsult`
 
 **Pregunta 1: Explique qué hace el código WordConsultStreamingJob.scala**
+
 **Pregunta 2: Explique la diferencia entre Spark y Spark Streaming**
 
 
@@ -111,13 +112,15 @@ Pare el servidor de netcat y el Job de Spark.
 
 ### Bloque 2: Desplegar el Job en Docker
 
-En el fichero `docker-compose.yml` aparecen todos los contenedores necesarios para el despliegue. Los cuales se van a explicar a continuación:
+En el fichero `docker-compose.yml` aparecen todos los contenedores necesarios para el despliegue:
 
-- *proxy*: servidor proxy que permite comunicarse con Spark desde el ordenador del alumno (fuera de la red Docker).
-- *spark-master*: nodo master que gestiona el cluster.
-- *spark-worker-1*: nodo worker que ejecutará los jobs.
-- *spark-worker-2*: nodo worker que ejecutará los jobs.
-- *spark-submit*: contenedor encargado de ejecutar spark-submit para iniciar el Job en Spark.
+- *proxy*: servidor proxy que permite comunicarse con Spark desde el ordenador del alumno (fuera de la red Docker). -> no importante para la práctica
+- *spark-master*
+- *spark-worker-1*
+- *spark-worker-2*
+- *spark-submit*
+
+**Pregunta 5: indique para qué sirve cada servicio**
 
 Para arrancar el escenario debe ejecutar el comando desde la raíz del proyecto. La primera vez puede tardar un par de minutos porque debe descargarse las imágenes desde DockerHub.
 
@@ -151,14 +154,14 @@ docker compose up -d
 
 **Captura 2: captura con alguno de los resultados devueltos por Spark (terminal del contenedor spark-submit)**
 
-**Pregunta 5: dibuje y explique la arquitectura del escenario. En el caso del proxy puede suponer que es un servidor al que realiza peticiones y las encamina a Spark**
+**Pregunta 6: dibuje y explique la arquitectura del escenario. En el caso del proxy puede suponer que es un servidor al que realiza peticiones y las encamina a Spark**
 
 Acceda a la UI de Spark y navegue por las diferentes pestañas:
 
 - http://localhost:8080/ : información del cluster
 - http://localhost:4040/ : informaicón de Spark Structured Streaming
 
-**Pregunta 6: explique qué se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
+**Pregunta 7: explique qué se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
 
 
 Pare el escenario:
