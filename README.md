@@ -40,6 +40,13 @@ Descarge el fichero de VM con extensión .ova e importelo en virtualbox.
 
 Dentro de la máquina virtual abra un terminal y realice los siguientes pasos.
 
+Instalar sdkman (linux):
+```
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk version
+```
+
 Instalar con sdkman la versión de Scala 2.12:
 ```
 sdk install scala 2.12.15
