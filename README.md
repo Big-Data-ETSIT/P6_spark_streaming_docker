@@ -16,12 +16,7 @@
 ## 2. Dependencias
 
 Para realizar la práctica el alumno deberá tener instalado en su ordenador:
-- Herramienta GIT para gestión de repositorios [Github](https://git-scm.com/downloads)
-- Scala versión 2.12
-- Spark versión 3.1.2
-- SBT
-- Java 8
-- Máquina virtual con sistema operativo linux y distribución Ubuntu 22.04 (Disponible en el enlace compartido en moodle) 
+- Las mismas herramientas que en laboratorio anterior (Spark Batch)
 - Docker y Docker Compose
 
 
@@ -34,39 +29,7 @@ La práctica se desarrolla en tres bloques en donde se pretende ejemplificar com
 
 ## 4. Inicializar el entorno
 
-Para la realización de la práctica se ha provisionado una máquina virtual con sistema operativo linux y distribución Ubuntu. En los recursos de Moodle de la asignatura se puede acceder al enlace de descarga.
-
-Descarge el fichero de VM con extensión .ova e importelo en virtualbox. 
-
-Dentro de la máquina virtual abra un terminal y realice los siguientes pasos.
-
-Instalar sdkman (linux):
-```
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk version
-```
-
-Instalar con sdkman la versión de Scala 2.12:
-```
-sdk install scala 2.12.15
-```
-Y configurarla como la versión por defecto:
-```
-sdk default scala 2.12.15
-```
-
-Instalar con sdkman Spark 3.1.2:
-
-```
-sdk install spark 3.1.2
-```
-
-Comprobar que la versión de Java instalada es la 8
-
-```
-java -version
-```
+Descargar las mismas herramientas y versiones que en el laboratorio anterior (Spark Batch)
 
 Descargar el repositorio:
 ```
