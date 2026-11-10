@@ -1,17 +1,14 @@
-
-// The simplest possible sbt build file is just one line:
-
-scalaVersion := "2.12.15"
+scalaVersion := "2.13.18"
 
 name := "word-consult-streaming"
 version := "1.0"
 
-val sparkVersion = "3.1.2"
+val sparkVersion = "4.1.1"
 
-mainClass in Compile := Some("es.upm.dit.WordCountStreamingJob")
+// Sintaxis moderna recomendada para sbt 1.x
+Compile / mainClass := Some("es.upm.dit.WordConsultStreamingJob")
 
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion,
-  "org.apache.spark" %% "spark-sql" % sparkVersion,
-  "org.apache.spark" % "spark-streaming_2.12" % sparkVersion 
+  "org.apache.spark" %% "spark-sql" % sparkVersion
 )
