@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.broadcast // <- Importación necesaria
 
 object WordConsultStreamingJob {
-  val inputFile = "../wordCountConsult/csv/wordsCount.csv"
+  val inputFile = sys.env.getOrElse("CSV_PATH", "../wordCountConsult/csv/wordsCount.csv")
   final val HOST = sys.env.getOrElse("SERVER", "localhost")
   final val MASTER = sys.env.getOrElse("SPARK_MASTER", "local[*]")
 

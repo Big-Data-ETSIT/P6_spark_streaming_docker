@@ -100,10 +100,31 @@ docker compose up -d
 
 Además debe arrancar un cliente netcat desde un terminal del ordenador del alumno una vez que haya arrancado el escenario en Docker y que se haya iniciado el Job
 
-En un terminal ejecute el siguiente comando para ver los logs del Job de Spark y comprobar que se ha iniciado el Job:
+El modo de despliegue del Job se elige en el fichero `.env` (raíz del proyecto) con la variable `MODO_CLUSTER`:
+
 ```
-docker logs spark-submit -f
+MODO_CLUSTER=false   # modo client (por defecto): el driver corre en el contenedor spark-submit
+MODO_CLUSTER=true    # modo cluster: el driver corre dentro de uno de los workers
 ```
+
+Tras cambiarla hay que recrear el escenario (`docker compose down && docker compose up -d`).
+
+**Ver los logs del driver**
+
+- *Modo client* (`MODO_CLUSTER=false`): el driver corre en el contenedor `spark-submit`, por lo que sus logs se ven con:
+  ```
+  docker logs spark-submit -f
+  ```
+  La UI de la aplicación está en http://localhost:4040/
+- *Modo cluster* (`MODO_CLUSTER=true`): el contenedor `spark-submit` solo envía el Job y termina (`docker logs spark-submit` muestra únicamente el estado del driver). El driver corre en un worker (1 o 2, según dónde lo asigne el master).
+  - Por consola (sustituya `spark-worker-1` por `spark-worker-2` si el driver no está en el primero):
+    ```
+    docker exec spark-worker-1 sh -c 'tail -f /opt/spark/work/driver-*/stdout'
+    ```
+    Los errores están en `/opt/spark/work/driver-*/stderr` del mismo directorio.
+  - Por la interfaz: abra http://localhost:8080/, en *Running Drivers* localice el driver y siga el enlace al worker que lo ejecuta (http://localhost:8081/ o http://localhost:8082/). En *Running Drivers* pulse `stdout` / `stderr` para ver sus logs.
+  - La UI de la aplicación (puerto 4040) queda en el worker que ejecuta el driver y no está publicada en el host; desde el master (8080) se accede a ella con el enlace *Application Detail UI* de la aplicación.
+
 En otro terminal ejecute el siguiente comando para arrancar el cliente netcat:
 
 ```
@@ -122,16 +143,24 @@ docker compose up -d
 
 **Captura 1: captura con todos los contenedores arrancados (para ello ejecute `docker ps`)**
 
-**Captura 2: captura con alguno de los resultados devueltos por Spark (terminal del contenedor spark-submit)**
+**Captura 2: captura con alguno de los resultados devueltos por Spark (logs del driver)**
 
 **Pregunta 6: dibuje y explique la arquitectura del escenario. En el caso del proxy puede suponer que es un servidor al que realiza peticiones y las encamina a Spark**
 
 Acceda a la UI de Spark y navegue por las diferentes pestañas:
 
 - http://localhost:8080/ : información del cluster
-- http://localhost:4040/ : informaicón de Spark Structured Streaming
+- http://localhost:4040/ : informaicón de Spark Structured Streaming (solo en modo client; en modo cluster se accede desde la UI del master)
 
 **Pregunta 7: explique qué se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
+
+### Bloque 3: Modo client vs modo cluster
+
+Repita el despliegue del Bloque 2 con `MODO_CLUSTER=true` en el fichero `.env` (modo cluster) y después con `MODO_CLUSTER=false` (modo client), recreando el escenario cada vez con `docker compose down && docker compose up -d`. Consulte los logs del driver como se explica en el Bloque 2.
+
+**Pregunta 8: explique la diferencia entre ejecutar el Job con `--deploy-mode client` y `--deploy-mode cluster`. ¿En qué contenedor se ejecuta el driver en cada caso? ¿Qué muestra `docker logs spark-submit` en cada modo?**
+
+**Captura 3: captura de la UI del master (http://localhost:8080/) en modo cluster donde se vea el driver en ejecución y en qué worker corre**
 
 
 Pare el escenario:

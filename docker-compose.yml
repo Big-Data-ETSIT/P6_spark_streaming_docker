@@ -30,6 +30,8 @@ services:
     image: apache/spark:4.1.1-scala2.13-java17-ubuntu
     container_name: spark-worker-1
     working_dir: /wordCountConsult
+    environment:
+      - CSV_PATH=/wordCountConsult/csv/wordsCount.csv
     env_file:
       - .env
     depends_on:
@@ -44,6 +46,8 @@ services:
     image: apache/spark:4.1.1-scala2.13-java17-ubuntu
     container_name: spark-worker-2
     working_dir: /wordCountConsult
+    environment:
+      - CSV_PATH=/wordCountConsult/csv/wordsCount.csv
     env_file:
       - .env
     depends_on:
@@ -64,7 +68,14 @@ services:
       - spark-master
       - spark-worker-1
       - spark-worker-2
-    command: /bin/bash -c "sleep 15 && /opt/spark/bin/spark-submit --class es.upm.dit.WordConsultStreamingJob --master spark://spark-master:7077 /wordCountConsult/target/scala-2.13/word-consult-streaming_2.13-1.0.jar"
+    command:
+      - /bin/bash
+      - -c
+      - |
+        sleep 15
+        if [ "$${MODO_CLUSTER:-false}" = "true" ]; then MODE=cluster; else MODE=client; fi
+        echo "Lanzando spark-submit en modo $$MODE"
+        /opt/spark/bin/spark-submit --class es.upm.dit.WordConsultStreamingJob --master spark://spark-master:7077 --deploy-mode $$MODE /wordCountConsult/target/scala-2.13/word-consult-streaming_2.13-1.0.jar
     ports:
       - "4040:4040"
     volumes:
