@@ -123,7 +123,7 @@ Tras cambiarla hay que recrear el escenario (`docker compose down && docker comp
     ```
     Los errores están en `/opt/spark/work/driver-*/stderr` del mismo directorio.
   - Por la interfaz: abra http://localhost:8080/, en *Running Drivers* localice el driver y siga el enlace al worker que lo ejecuta (http://localhost:8081/ o http://localhost:8082/). En *Running Drivers* pulse `stdout` / `stderr` para ver sus logs.
-  - La UI de la aplicación (puerto 4040) queda en el worker que ejecuta el driver y no está publicada en el host; desde el master (8080) se accede a ella con el enlace *Application Detail UI* de la aplicación.
+  - La UI de la aplicación depende del worker que ejecute el driver: http://localhost:4041/ si está en `spark-worker-1` o http://localhost:4042/ si está en `spark-worker-2`. También se llega desde el enlace de la aplicación en http://localhost:8080/.
 
 En otro terminal ejecute el siguiente comando para arrancar el cliente netcat:
 
@@ -150,7 +150,8 @@ docker compose up -d
 Acceda a la UI de Spark y navegue por las diferentes pestañas:
 
 - http://localhost:8080/ : información del cluster
-- http://localhost:4040/ : informaicón de Spark Structured Streaming (solo en modo client; en modo cluster se accede desde la UI del master)
+- http://localhost:4040/ : informaicón de Spark Structured Streaming (modo client; en modo cluster es http://localhost:4041/ o http://localhost:4042/ según el worker donde corra el driver)
+- http://localhost:8081/ y http://localhost:8082/ : UI de cada worker
 
 **Pregunta 7: explique qué se puede ver en esas pantallas. Puede incluír alguna captura que acompañe a su explicación**
 
